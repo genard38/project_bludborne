@@ -13,7 +13,11 @@ import com.badlogic.gdx.utils.Array;
 import java.util.Hashtable;
 
 
-////the change yow
+////the change yowfasdfaf
+// thehahfahdfadfafahfafafaf
+
+
+//the second changes
 public class MapManager {
     public final static float UNIT_SCALE = 1 / 16f;
     private static final String TAG = MapManager.class.getSimpleName();
