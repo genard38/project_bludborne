@@ -66,6 +66,19 @@ public class MapManager {
         _convertedUnits = new Vector2(0, 0);
 
     }
+    public void unregisterCurrentMapEntityObservers(){
+        if(_currentMap != null){
+            Array<Entity> entities = _currentMap.getMapEntities();
+            for(Entity entity: entities){
+                entity.unregisterObservers();
+            }
+        }
+    }
+
+
+
+
+
 
 
     /* this method is a straightforward helper method
