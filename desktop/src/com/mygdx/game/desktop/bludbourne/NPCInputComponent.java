@@ -48,6 +48,11 @@ public class NPCInputComponent extends InputComponent {
     }
 
     @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
     public void update(Entity entity, float delta) {
         if(keys.get(Keys.QUIT)){
             Gdx.app.exit();
