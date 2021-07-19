@@ -33,7 +33,7 @@ public class AudioManager implements AudioObserver {
     public void onNotify(AudioCommand command, AudioTypeEvent event) {
         switch(command){
             case MUSIC_LOAD:
-                Utility.loadMusicAsset(event.getValue());// todo fixme
+                Utility.loadMusicAsset(event.getValue());
                 break;
             case MUSIC_PLAY_ONCE:
                 playMusic(false, event.getValue());
@@ -53,7 +53,7 @@ public class AudioManager implements AudioObserver {
                 }
                 break;
             case SOUND_LOAD:
-                Utility.loadSoundAsset(event.getValue()); //todo create method in utility
+                Utility.loadSoundAsset(event.getValue());
             break;
             case SOUND_PLAY_LOOP:
                 playSound(true,event.getValue());
