@@ -153,6 +153,8 @@ public class Utility {
 
 
 
+
+
     public static void loadSoundAsset(String soundFilenamePath) {
         if(soundFilenamePath == null || soundFilenamePath.isEmpty() ){
             return;
@@ -180,11 +182,28 @@ public class Utility {
 
 
 
-    public static Music getMusicAsset(String fullFilePath) {
+    public static Music getMusicAsset(String musicFilenamePath) {
+        Music music = null;
 
+        //once the asset manager is done loading
+        if( _assetManager.isLoaded(musicFilenamePath)){
+            music = _assetManager.get(musicFilenamePath, Music.class);
+        } else {
+            Gdx.app.debug(TAG, "Music is not loaded: "+ musicFilenamePath);
+        }
+        return music;
     }
 
-    public static Sound getSoundAsset(String fullFilePath) {
+    public static Sound getSoundAsset(String soundFilenamePath) {
+        Sound sound = null;
+
+        // once the asset manager is done loading
+        if( _assetManager.isLoaded(soundFilenamePath) ){
+            sound = _assetManager.get(soundFilenamePath, Sound.class);
+        } else{
+            Gdx.app.debug(TAG, "Sound is not loaded: " + soundFilenamePath);
+        }
+        return sound;
     }
 }
 

@@ -80,7 +80,7 @@ public class AudioManager implements AudioObserver {
             music.setLooping(isLooping);
             music.play();
         }else if(Utility.isAssetLoaded(fullFilePath)){
-            music = Utility.getMusicAsset(fullFilePath); //todo create getMusicAsset method in Utility
+            music = Utility.getMusicAsset(fullFilePath);
             music.setLooping(isLooping);
             music.play();
             _queuedMusic.put(fullFilePath, music);
