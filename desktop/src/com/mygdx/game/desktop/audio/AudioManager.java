@@ -98,7 +98,7 @@ public class AudioManager implements AudioObserver {
             long soundId = sound.play();
             sound.setLooping(soundId, isLooping);
         }else if(Utility.isAssetLoaded(fullFilePath)){
-            sound = Utility.getSoundAsset(fullFilePath);//todo create getSoundAsset in Utility
+            sound = Utility.getSoundAsset(fullFilePath);
             long soundId = sound.play();
             sound.setLooping(soundId, isLooping);
             _queuedSounds.put(fullFilePath, sound);

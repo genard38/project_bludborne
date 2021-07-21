@@ -68,9 +68,9 @@ public class MapManager {
     }
     public void unregisterCurrentMapEntityObservers(){
         if(_currentMap != null){
-            Array<Entity> entities = _currentMap.getMapEntities();
+            Array<Entity> entities = _currentMap.getMapEntities();  // todo fix me
             for(Entity entity: entities){
-                entity.unregisterObservers();
+                entity.unregisterObservers(); // todo fix me
             }
         }
     }
@@ -203,7 +203,7 @@ public class MapManager {
     }
 
     public Array<Entity> getCurrentMapEntities() {
-        return _currentMap.getMapEntities();
+        return _currentMap.getMapEntities(); // todo fix me
     }
     
 
