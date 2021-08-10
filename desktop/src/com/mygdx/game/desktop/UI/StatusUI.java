@@ -42,100 +42,7 @@ public class StatusUI extends Window implements StatusSubject {
     private float _barWidth = 0;
     private float _barHeight = 0;
 
-    public StatusUI(){
-        super("status", Utility.STATUSUI_SKIN);
-
-        _levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
-
-        _observers = new Array <StatusObserver>();
-
-        //groups
-        WidgetGroup group = new WidgetGroup();
-        WidgetGroup group2 = new WidgetGroup();
-        WidgetGroup group3 = new WidgetGroup();
-
-        //images
-        _hpBar = new Image (Utility.STATUSUI_TEXTUREATLAS.findRegion("HP_Bar"));
-        Image bar = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("Bar"));
-        _mpBar = new Image(Utility.STATUS_TEXTUREATLAS.findRegion("MP_Bar"));
-        Image bar2 = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("Bar"));
-        _xpBar = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("XP_Bar"));
-        Image bar3 = new Image(Utility.STATUSUI_TEXUREATLAS.findRegion("Bar"));
-
-        _barWidth = _hpBar.getWidth();
-        _barHeight = _hpBar.getHeight();
-
-        //labels
-        Label hpLabel = new Label(" hp: ", Utility.STATUSUI_SKIN);
-        _hpValLabel = new Label(String.valueOf(_hpVal), Utility.STATUSUI_SKIN);
-        Label mpLabel = new Label(" mp: ", Utility.STATUSUI_SKIN);
-        _mpValLabel = new Label(String.valueOf(_mpVal), Utility.STATUSUI_SKIN);
-        Label xpLabel = new Label( " xp: ", Utility.STATUSUI_SKIN);
-        _xpValLabel = new Label(String.valueOf(_xpVal), Utility.STATUSUI_SKIN);
-        Label levelLabel = new Label(" lv: ", Utility.STATUSUI_SKIN);
-        _levelValLabel = new Label(String.valueOf(_levelVal), Utility.STATUSUI_SKIN);
-        Label goldLabel = new Label( " gp: ", Utility.STATUS_SKIN);
-        _goldValLabel = new Label(String.valueOf(_goldVal), Utility.STATUSUI_SKIN);
-
-
-        //buttons
-        _inventoryButton = new ImageButton(Utility.STATUSUI_SKIN,"inventory-button");
-        _inventoryButton.getImageCell().size(32,32);
-
-        _questButton = new ImageButton(Utility.STATUSUI._SKIN,"quest-button");
-        _questButton.getImageCell().size(32,32);
-
-
-        //Align images
-        _hpBar.setPosition(3,6);
-        _mpBar.setPosition(3,6);
-        _xpBar.setPosition(3,6);
-
-        //add to widget groups
-        group.addActor(bar);
-        group.addActor(_hpBar);
-        group2.addActor(bar2);
-        group2.addActor(_mpBar);
-        group3.addActor(bar3);
-
-
-        //Add to layout
-        defaults().expand().fill();
-
-        //account for the title padding
-        this.pad(this.getPadTop() + 10, 10, 10,10);
-
-        this.add();
-        this.add(_questButton).align(Align.center);
-        this.add(_inventoryButton).align(Align.right);
-        this.row();
-
-        this.add(group).size(bar.getWidth(), bar.getHeight()).padRight(10);
-        this.add(hpLabel);
-        this.add(_hpValLabel).align(Align.left);
-        this.row();
-
-        this.add(group2).size(bar2.getWidth(), bar2.getHeight()).padRight(10);
-        this.add(mpLabel);
-        this.add(_mpValLabel).align(Align.left);
-        this.row();
-
-        this.add(group3).size(bar3.getWidth(), bar3.getHeight()).padRight(10);
-        this.add(xpLabel);
-        this.add(_xpValLabel).align(Align.left).padRight(20);
-        this.row();
-
-        this.add(levelLabel).align(Align.left);
-        this.add(_levelValLabel).align(Align.left);
-        this.row();
-        this.add(goldLabel);
-        this.add(_goldValLabel).align(Align.left);
-
-        //this.debug();
-        this.pack();
-
-
-    }
+@Override todo fix
 
 
     public ImageButton getInventoryButton(){ return _inventoryButton;
@@ -192,44 +99,101 @@ public class StatusUI extends Window implements StatusSubject {
 
         notify(_xpVal, StatusObserver.StatusEvent.UPDATED_XP);
     }
+@Override todo fix
 
-    public void setStatusForLevel(int level){
-        for(LevelTable table: _levelTables){
-            if(Integer.parseInt(table.getlevelID()) == level ){
-                setXPValueMax(table.getXpMax());
-                setXPValue(0);
+    public StatusUI(){
+        super("status", Utility.STATUSUI_SKIN);
 
-                setHPValueMax(table.getHpMax());
-                setHPValue(table.getHpMax());
+        _levelTables = LevelTable.getLevelTables(LEVEL_TABLE_CONFIG);
 
-                setMPValueMax(table.getMpMax());
-                setMPValue(table.getMpMax());
+        _observers = new Array <StatusObserver>();
 
-                setLevelValue(Integer.parseInt(table.getLevelID()));
-                return;
-            }
-        }
-    }
+        //groups
+        WidgetGroup group = new WidgetGroup();
+        WidgetGroup group2 = new WidgetGroup();
+        WidgetGroup group3 = new WidgetGroup();
 
-    public void updateToNewLevel(){
-        for (LevelTable table: _levelTables){
-            //System.out.println("XPVAL " + _xpVal + " table XPMAX " + table.getXpMax());
-            if( _xpVal > table.getXpMax()){
-                continue;
-            }else{
-                setXPValueMax(table.getXpMax());
+        //images
+        _hpBar = new Image (Utility.STATUSUI_TEXTUREATLAS.findRegion("HP_Bar"));
+        Image bar = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("Bar"));
+        _mpBar = new Image(Utility.STATUS_TEXTUREATLAS.findRegion("MP_Bar")); //TODO fix this
+        Image bar2 = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("Bar"));
+        _xpBar = new Image(Utility.STATUSUI_TEXTUREATLAS.findRegion("XP_Bar"));
+        Image bar3 = new Image(Utility.STATUSUI_TEXUREATLAS.findRegion("Bar"));// TODO  fix this
 
-                setHPValueMax(table.getHpMax());
-                setHPValue(table.getHpMax());
+        _barWidth = _hpBar.getWidth();
+        _barHeight = _hpBar.getHeight();
 
-                setMPValueMax(table.getMpMax());
-                setMPValue(table.getMpMax());
+        //labels
+        Label hpLabel = new Label(" hp: ", Utility.STATUSUI_SKIN);
+        _hpValLabel = new Label(String.valueOf(_hpVal), Utility.STATUSUI_SKIN);
+        Label mpLabel = new Label(" mp: ", Utility.STATUSUI_SKIN);
+        _mpValLabel = new Label(String.valueOf(_mpVal), Utility.STATUSUI_SKIN);
+        Label xpLabel = new Label( " xp: ", Utility.STATUSUI_SKIN);
+        _xpValLabel = new Label(String.valueOf(_xpVal), Utility.STATUSUI_SKIN);
+        Label levelLabel = new Label(" lv: ", Utility.STATUSUI_SKIN);
+        _levelValLabel = new Label(String.valueOf(_levelVal), Utility.STATUSUI_SKIN);
+        Label goldLabel = new Label( " gp: ", Utility.STATUS_SKIN); // todo fix thiss
+        _goldValLabel = new Label(String.valueOf(_goldVal), Utility.STATUSUI_SKIN);
 
-                setLevelValue(Integer.parseInt(table.getLevelID()));
-                notify(_levelVal, StatusObserver.StatusEvent.LEVELED_UP);
-                return;
-            }
-        }
+
+        //buttons
+        _inventoryButton = new ImageButton(Utility.STATUSUI_SKIN,"inventory-button");
+        _inventoryButton.getImageCell().size(32,32);
+
+        _questButton = new ImageButton(Utility.STATUSUI._SKIN,"quest-button"); // todo fix this
+        _questButton.getImageCell().size(32,32);
+
+
+        //Align images
+        _hpBar.setPosition(3,6);
+        _mpBar.setPosition(3,6);
+        _xpBar.setPosition(3,6);
+
+        //add to widget groups
+        group.addActor(bar);
+        group.addActor(_hpBar);
+        group2.addActor(bar2);
+        group2.addActor(_mpBar);
+        group3.addActor(bar3);
+
+
+        //Add to layout
+        defaults().expand().fill();
+
+        //account for the title padding
+        this.pad(this.getPadTop() + 10, 10, 10,10);
+
+        this.add();
+        this.add(_questButton).align(Align.center);
+        this.add(_inventoryButton).align(Align.right);
+        this.row();
+
+        this.add(group).size(bar.getWidth(), bar.getHeight()).padRight(10);
+        this.add(hpLabel);
+        this.add(_hpValLabel).align(Align.left);
+        this.row();
+
+        this.add(group2).size(bar2.getWidth(), bar2.getHeight()).padRight(10);
+        this.add(mpLabel);
+        this.add(_mpValLabel).align(Align.left);
+        this.row();
+
+        this.add(group3).size(bar3.getWidth(), bar3.getHeight()).padRight(10);
+        this.add(xpLabel);
+        this.add(_xpValLabel).align(Align.left).padRight(20);
+        this.row();
+
+        this.add(levelLabel).align(Align.left);
+        this.add(_levelValLabel).align(Align.left);
+        this.row();
+        this.add(goldLabel);
+        this.add(_goldValLabel).align(Align.left);
+
+        //this.debug();
+        this.pack();
+
+
     }
 
     public int getXPValueMax(){ return _xpCurrentMax;}
@@ -259,13 +223,22 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
-    public void addHPValue(int hpValue){
-        _hpVal = MathUtils.clamp(_hpVal + hpValue, 0, _hpCurrentMax );
-        _hpValLabel.setText(String.valueOf(_hpVal));
+    public void setStatusForLevel(int level){
+        for(LevelTable table: _levelTables){
+            if(Integer.parseInt(table.getlevelID()) == level ){ // todo fix this
+                setXPValueMax(table.getXpMax());
+                setXPValue(0);
 
-        updatedBar(_hpBar, _hpVal, _hpCurrentMax);
+                setHPValueMax(table.getHpMax());
+                setHPValue(table.getHpMax());
 
-        notify(_hpVal, StatusObserver.StatusEvent.UPDATED_HP);
+                setMPValueMax(table.getMpMax());
+                setMPValue(table.getMpMax()); // todo fix this
+
+                setLevelValue(Integer.parseInt(table.getLevelID()));
+                return;
+            }
+        }
     }
 
     public int getHPValueMax(){return _hpCurrentMax;}
@@ -299,22 +272,34 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
-    public void setMPValue(int mpValue){
-        this._mpVal = mpValue;
-        _mpValLabel.setText(String.valueOf(_mpVal));
+    public void updateToNewLevel(){
+        for (LevelTable table: _levelTables){
+            //System.out.println("XPVAL " + _xpVal + " table XPMAX " + table.getXpMax());
+            if( _xpVal > table.getXpMax()){
+                continue;
+            }else{
+                setXPValueMax(table.getXpMax());
 
-        updateBar(_mpBar, _mpVal, _mpCurrentMax);
+                setHPValueMax(table.getHpMax());
+                setHPValue(table.getHpMax());
 
-        notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+                setMPValueMax(table.getMpMax());
+                setMPValue(table.getMpMax()); // todo fix this
+
+                setLevelValue(Integer.parseInt(table.getLevelID()));
+                notify(_levelVal, StatusObserver.StatusEvent.LEVELED_UP);
+                return;
+            }
+        }
     }
 
-    public void setMPValue (int mpValue){
-        this._mpVal = mpValue;
-        _mpValLabel.setText(String.valueOf(_mpVal));
+    public void addHPValue(int hpValue){
+        _hpVal = MathUtils.clamp(_hpVal + hpValue, 0, _hpCurrentMax );
+        _hpValLabel.setText(String.valueOf(_hpVal));
 
-        updateBar(_mpBar, _mpVal, _mpCurrentMax);
+        updatedBar(_hpBar, _hpVal, _hpCurrentMax); // todo fix this
 
-        notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+        notify(_hpVal, StatusObserver.StatusEvent.UPDATED_HP);
     }
 
     public int getMPValueMax(){return _mpCurrentMax; }
@@ -328,18 +313,31 @@ public class StatusUI extends Window implements StatusSubject {
         bar.setSize(_barWidth * percentage, _barHeight);
     }
 
+    public void setMPValue(int mpValue){ // todo fix this
+        this._mpVal = mpValue;
+        _mpValLabel.setText(String.valueOf(_mpVal));
 
-    @Override
-    public void addObserver(StatusObserver statusObserver) {
-        _observers.add(statusObserver);
+        updateBar(_mpBar, _mpVal, _mpCurrentMax);
+
+        notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
-    @Override
+        public void setMPValue (int mpValue){ // todo fix this
+        this._mpVal = mpValue;
+        _mpValLabel.setText(String.valueOf(_mpVal));
+
+        updateBar(_mpBar, _mpVal, _mpCurrentMax);
+
+        notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+    } this
     public void removeObserver(StatusObserver statusObserver) {
         _observers.removeValue(statusObserver, true);
     }
 
-    @Override
+        @Override  // todo fix this
+    public void addObserver(StatusObserver statusObserver) {
+        _observers.add(statusObserver);
+    } this
     public void removeAllObservers() {
         for(StatusObserver observer: _observers){
             _observers.removeValue(observer,true);
@@ -353,9 +351,6 @@ public class StatusUI extends Window implements StatusSubject {
         }
     }
 
-    //pag natapos na punta na sa ibang mga redlines
-
-    // todo fill this
 
 
 
