@@ -4,19 +4,24 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.desktop.battle.LevelTable;
 import com.mygdx.game.desktop.bludbourne.Utility;
 
 public class StatusUI extends Window implements StatusSubject {
 
 
-    private static final String LEVEL_TABLE_CONFIG = "scripts/level_table.json";
+
     private Image _hpBar;
     private Image _mpBar;
     private Image _xpBar;
+
     private ImageButton _inventoryButton;
     private ImageButton _questButton;
     private Array<StatusObserver> _observers;
+
     private Array<LevelTable> _levelTables;
+    private static final String LEVEL_TABLE_CONFIG = "scripts/level_table.json";
+
     //Attributes
     private int _levelVal = -1;
     private int _goldVal = -1;
@@ -294,36 +299,58 @@ public class StatusUI extends Window implements StatusSubject {
         notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
     }
 
+    public void setMPValue(int mpValue){
+        this._mpVal = mpValue;
+        _mpValLabel.setText(String.valueOf(_mpVal));
 
+        updateBar(_mpBar, _mpVal, _mpCurrentMax);
 
+        notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+    }
 
+    public void setMPValue (int mpValue){
+        this._mpVal = mpValue;
+        _mpValLabel.setText(String.valueOf(_mpVal));
 
+        updateBar(_mpBar, _mpVal, _mpCurrentMax);
 
+        notify(_mpVal, StatusObserver.StatusEvent.UPDATED_MP);
+    }
 
+    public int getMPValueMax(){return _mpCurrentMax; }
 
+    public void setMPValueMax(int maxMPValue){this._mpCurrentMax = maxMPValue;}
 
-
-
+    public void updateBar(Image bar, int currentVal, int maxVal){
+        int val = MathUtils.clamp(currentVal,0,maxVal);
+        float tempPercent = (float) val / (float) maxVal;
+        float percentage = MathUtils.clamp(tempPercent,0,100);
+        bar.setSize(_barWidth * percentage, _barHeight);
+    }
 
 
     @Override
     public void addObserver(StatusObserver statusObserver) {
-
+        _observers.add(statusObserver);
     }
 
     @Override
     public void removeObserver(StatusObserver statusObserver) {
-
+        _observers.removeValue(statusObserver, true);
     }
 
     @Override
     public void removeAllObservers() {
-
+        for(StatusObserver observer: _observers){
+            _observers.removeValue(observer,true);
+        }
     }
 
     @Override
     public void notify(int value, StatusObserver.StatusEvent event) {
-
+        for(StatusObserver observer: _observers){
+            observer.onNotify(value,event);
+        }
     }
 
     //pag natapos na punta na sa ibang mga redlines
