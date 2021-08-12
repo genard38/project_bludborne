@@ -82,5 +82,6 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     }
 
 
-
+    public void recoverActor(InventoryItem item) {
+    }
 }
