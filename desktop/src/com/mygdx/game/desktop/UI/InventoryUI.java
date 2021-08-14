@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragAndDrop;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
+import com.mygdx.game.desktop.InventoryItem;
 import com.mygdx.game.desktop.bludbourne.Component;
 import com.mygdx.game.desktop.bludbourne.Entity;
 import com.mygdx.game.desktop.bludbourne.Utility;
@@ -32,7 +33,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
     private int _APVal = 0;
     private Array<InventoryObserver> _observers;
 
-    // todo create InventorySlotTooltip class
+
     private InventorySlotTooltip _inventorySlotTooltip;
 
 
@@ -78,7 +79,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
                         InventoryItem.ItemUseType.WEAPON_TWOHAND.getValue() |
                         InventoryItem.ItemUseType.ARMOR_SHIELD.getValue() |
                         InventoryItem.ItemUseType.WAND_ONEHAND.getValue() |
-                        InventoryItem.IttemUseType.WAND_TWOHAND.getValue() |
+                        InventoryItem.ItemUseType.WAND_TWOHAND.getValue() ,
                         new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_weapon"))
         );
 
@@ -93,7 +94,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         );
 
         InventorySlot chestSlot = new InventorySlot(
-                InventoryItem.ItemUseType.ARMOR_CHEST.getVAlue(),
+                InventoryItem.ItemUseType.ARMOR_CHEST.getValue(),
                 new Image(Utility.ITEMS_TEXTUREATLAS.findRegion("inv_chest")));
 
         InventorySlot legsSlot = new InventorySlot(
@@ -104,7 +105,7 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
         leftArmSlot.addListener(new InventorySlotTooltipListener(_inventorySlotTooltip));
         rightArmSlot.addListener(new InventorySlotTooltipListener(_inventorySlotTooltip));
         chestSlot.addListener(new InventorySlotTooltipListener(_inventorySlotTooltip));
-        legsSlot.addObserver(new InventorySlotTooltipListnener(_inventorySlotTooltip));
+        legsSlot.addListener(new InventorySlotTooltipListener(_inventorySlotTooltip));
 
         headSlot.addObserver(this);
         leftArmSlot.addObserver(this);
