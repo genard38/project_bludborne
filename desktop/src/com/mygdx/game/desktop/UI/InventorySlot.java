@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.SnapshotArray;
+import com.mygdx.game.desktop.InventoryItem;
 import com.mygdx.game.desktop.bludbourne.Utility;
 
 public class InventorySlot extends Stack implements InventorySlotSubject {
@@ -118,6 +119,20 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
     }
 
 
+    static public void swapSlot(InventorySlot inventorySlotSource, InventorySlot inventorySlotTarget, InventoryItem dragActor){
+        //check if items can accept each other otherwise, no swap
+        if( !inventorySlotTarget.doesAcceptItemUseType(dragActor.getItemUseType()) ||
+                !inventorySlotSource.doesAcceptItemUseType(inventorySlotTarget.getTopInventoryItem().getItemUseType())){
+            inventorySlotSource.add(dragActor);
+            return;
+        }
+        //swap
+        Array<Actor> tempArray = inventorySlotSource.getAllInventoryItems();
+        tempArray.add(dragActor);
+        inventorySlotSource.add(inventorySlotTarget.getAllInventoryItems());
+        inventorySlotTarget.add(tempArray);
+    }
+
     public Array<Actor> getAllInventoryItems(){
         Array<Actor> items = new Array<>();
         if( hasItem() ) {
@@ -129,30 +144,125 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
             }
         }
         return items;
-    }/// TODO continue fil here
+    }
 
+    public void updateAllInventoryItemNames(String name){
+        if (hasItem() ) {
+            SnapshotArray<Actor> arrayChildren = this.getChildren();
+            //skip first two elements
+            for(int i = arrayChildren.size - 1; i > 1 ; i --){
+                arrayChildren.get(i).setName(name);
+            }
+        }
+    }
 
-    @Override
-    public void addObserver(InventorySlotObserver inventorySlotObserver) {
+    public void removeAllInventoryItemsWithName(String name){
+        if(hasItem() ){
+            SnapshotArray<Actor> arrayChildren = this.getChildren();
+            //skip first two elements
+            for(int i = arrayChildren.size -1; i > 1 ; i--){
+                String itemName = arrayChildren.get(i).getName();
+                if(itemName.equalsIgnoreCase(name)){
+                    decrementItemCount(true);
+                    arrayChildren.removeIndex(i);
+                }
+            }
+        }
+    }
 
+    public void clearAllInventoryItems(boolean sendRemoveNotifications){
+        if( hasItem() ){
+            SnapshotArray<Actor> arrayChildren = this.getChildren();
+            int numInventoryItems = getNumItems();
+            for(int i = 0; i < numInventoryItems; i++){
+                decrementItemCount(sendRemoveNotifications);
+                arrayChildren.pop();
+            }
+        }
+    }
+
+    private void checkVisibilityOfItemCount(){
+        if(_numItemsVal < 2){
+            _numItemsLabel.setVisible(false);
+        }else{
+            _numItemsLabel.setVisible(true);
+        }
+    }
+
+    public boolean hasItem(){
+        if (hasChildren ()){
+            SnapshotArray< Actor > items = this.getChildren();
+            if (items.size > 2) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int getNumItems(){
+        if( hasChildren() ){
+            SnapshotArray< Actor > items = this.getChildren();
+            return items.size - 2;
+        }
+        return 0;
+    }
+
+    public int getNumItems(String name  ){
+        if( hasChildren() ){
+            SnapshotArray<Actor> items = this.getChildren();
+            int totalFilteredSize = 0;
+            for( Actor actor: items ){
+                if( actor.getName().equalsIgnoreCase(name)){
+                    totalFilteredSize++;
+                }
+            }
+            return totalFilteredSize;
+        }
+        return 0;
+    }
+
+    public boolean doesAcceptItemUseType(int itemUseType){
+        if(_filterItemType == 0){
+            return true;
+        }else {
+            return ((_filterItemType & itemUseType) == itemUseType);
+        }
+    }
+
+    public InventoryItem getTopInventoryItem(){
+        InventoryItem actor = null;
+        if( hasChildren() ){
+            SnapshotArray<Actor> items = this.getChildren();
+            if( items.size > 2){
+                actor = (InventoryItem) items.peek();
+            }
+        }
+        return actor;
     }
 
     @Override
-    public void removeObserver(InventorySlotObserver inventorySlotObserver) {
+    public void addObserver(InventorySlotObserver slotObserver) {
+        _observers.add(slotObserver);
+    }
 
+    @Override
+    public void removeObserver(InventorySlotObserver slotObserver) {
+        _observers.removeValue(slotObserver,true);
     }
 
     @Override
     public void removeAllObservers() {
-
+        for(InventorySlotObserver observer: _observers){
+            _observers.removeValue(observer,true);
+        }
     }
 
     @Override
     public void notify(InventorySlot slot, InventorySlotObserver.SlotEvent event) {
-
+        for(InventorySlotObserver observer: _observers){
+            observer.onNotify(slot, event);
+        }
     }
 
 
-    public void recoverActor(InventoryItem item) {
-    }
 }
