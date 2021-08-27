@@ -28,9 +28,9 @@ public class InventorySlot extends Stack implements InventorySlotSubject {
         _filterItemType = 0;// filter nothing;
         _defaultBackground = new Stack();
         _observers = new Array<InventorySlotObserver>();
-        Image image = new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("dialog"))); // todo create this field in Utility
+        Image image = new Image(new NinePatch(Utility.STATUSUI_TEXTUREATLAS.createPatch("dialog")));
 
-        _numItemsLabel = new Label(String.valueOf(_numItemsVal), Utility.STATUSUI_SKIN, "inventory-item-count"); // todo create this field in Utility
+        _numItemsLabel = new Label(String.valueOf(_numItemsVal), Utility.STATUSUI_SKIN, "inventory-item-count");
         _numItemsLabel.setAlignment(Align.bottomRight);
         _numItemsLabel.setVisible(false);
 
