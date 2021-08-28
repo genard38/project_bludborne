@@ -209,13 +209,13 @@ public class InventoryUI extends Window implements InventorySubject, InventorySl
 
         Array<Cell> cells = targetTable.getCells();
         for (int i = 0; i < inventoryItems.size; i++) {
-            InventoryItemLocation itemLocation = inventoryItems.get(i);
-            InventoryItem.ItemTypeID itemtyeID = IventoryItem.ItemTypeID.valueOf(itemLocation.getItemTypeLocation());
-            InventorySlot inventorySlot = ((InventorySlot) cells.get(itemLocation.getLocationIndex()).getActor());
+            InventoryItemLocation itemLocation = inventoryItems.get(i); // todo resolve this
+            InventoryItem.ItemTypeID itemtyeID = IventoryItem.ItemTypeID.valueOf(itemLocation.getItemTypeLocation()); // todo resolve this
+            InventorySlot inventorySlot = ((InventorySlot) cells.get(itemLocation.getLocationIndex()).getActor());  // todo resolve this
 
             for (int index = 0; index < itemLocation.getNumberItemsAtLocation(); index++) {
                 InventoryItem item = InventoryItemFactory.getInstance().getInvetoryItem(itemTypedID);
-                String itemName = itemLocation.getItemNameProperty();
+                String itemName = itemLocation.getItemNameProperty(); //todo resolve this
                 if (itemName == null || itemName.isEmpty()) {
                     item.setName(defaultName);
                 } else {
