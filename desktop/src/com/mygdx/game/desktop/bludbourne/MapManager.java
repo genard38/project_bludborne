@@ -49,6 +49,8 @@ public class MapManager {
     private MapLayer _spawnsLayer = null;
     private Entity _currentSelectedEntity = null;
 
+    private Entity _player;
+
     public MapManager() {
         _playerStart = new Vector2(0, 0);
         _mapTable = new Hashtable();
@@ -222,7 +224,9 @@ public class MapManager {
     }
 
 
-    
+    public void setPlayer(Entity entity) {
+        this._player = entity;
+    }
 }
 
 

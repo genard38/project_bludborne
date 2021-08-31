@@ -20,7 +20,7 @@ public class ConversationUI extends Window {
 
     private Label _dialogText;
     private List _listItems;
-    private ConversationGraph _graph; // TODO create this class
+    private ConversationGraph _graph;
     private String _currentEntityID;
 
     private TextButton _closeButton;
@@ -97,7 +97,7 @@ public class ConversationUI extends Window {
         _currentEntityID = entityConfig.getEntityID();
         this.setTitle(entityConfig.getEntityID());
 
-        ConversationGraph graph = _json.fromJson(ConversatioGraph.class, Gdx.files.internal(fullFilenamePath));
+        ConversationGraph graph = _json.fromJson(ConversationGraph.class, Gdx.files.internal(fullFilenamePath));
         setConversationGraph(graph);
 
     }

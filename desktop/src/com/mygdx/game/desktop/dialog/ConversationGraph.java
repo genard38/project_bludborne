@@ -8,8 +8,8 @@ import java.util.Set;
 
 public class ConversationGraph extends ConversationGraphSubject {
 
-    public Hashtable<String,Conversation> conversations; //todo create class Conversation
-    private Hashtable<String, ArrayList<ConversationChoice>> associatedChoices; // todo create ConversationChoice
+    public Hashtable<String,Conversation> conversations;
+    private Hashtable<String, ArrayList<ConversationChoice>> associatedChoices;
     private String currentConversationID = null;
 
 
